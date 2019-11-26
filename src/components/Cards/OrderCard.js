@@ -18,7 +18,7 @@ import HttpHelper from "../Helpers/HttpHelper";
 import ValidateHelper from "../Helpers/ValidateHelper";
 // import LingoContentHelper from '../Helpers/LingoContentHelper';
 
-function SignupCard(props) {
+function OrderCard(props) {
   const classes = useStyles();
 
   const [customer, setCustomer] = useState("");
@@ -58,13 +58,13 @@ function SignupCard(props) {
       let amount = price * pieces;
 
       let confirmation0 = [
-        { name: "厂家", val: customer },
-        { name: "型号", val: model },
-        { name: "类型", val: type },
-        { name: "镀色", val: color },
-        { name: "数量", val: pieces },
-        { name: "单价", val: price },
-        { name: "价格", val: amount }
+        { name: "厂家：", val: customer },
+        { name: "型号：", val: model },
+        { name: "类型：", val: type },
+        { name: "镀色：", val: color },
+        { name: "数量：", val: pieces },
+        { name: "单价：", val: price },
+        { name: "价格：", val: amount }
       ];
       console.log(`- confirmation: ${JSON.stringify(confirmation)}`);
       setOpen(true);
@@ -135,6 +135,7 @@ function SignupCard(props) {
           <List>
             {confirmation.map(item => (
               <ListItemText
+                disableTypography
                 primary={item.name}
                 secondary={item.val}
                 className={classes.inline}
@@ -174,8 +175,8 @@ var useStyles = makeStyles({
   inline: {
     display: "flex",
     flexDirection: "row",
-    padding: "10px 20px"
+    padding: "10px 24px"
   }
 });
 
-export default SignupCard;
+export default OrderCard;
