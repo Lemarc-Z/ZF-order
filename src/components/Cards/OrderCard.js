@@ -43,7 +43,19 @@ function OrderCard(props) {
     try {
       // console.log(`- selectedValue: ${JSON.stringify(selectedvalue)}`);
       const postUrl = "http://localhost:3001/login";
-      const resobj = await HttpHelper.httpRequestA(postUrl, confirmation, 1);
+
+      let amount = price * pieces;
+      let postData = {
+        customer,
+        model,
+        type,
+        color,
+        pieces,
+        price,
+        amount
+      };
+
+      const resobj = await HttpHelper.httpRequestA(postUrl, postData, 1);
       console.log(`- resobj: ${JSON.stringify(resobj)}`);
       // if (resobj.success) {
       //   authctx.onSignup();
