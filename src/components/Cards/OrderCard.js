@@ -38,6 +38,23 @@ function OrderCard(props) {
     setOpen(false);
   }
 
+  async function handleCfm() {
+    setOpen(false);
+    try {
+      // console.log(`- selectedValue: ${JSON.stringify(selectedvalue)}`);
+      const postUrl = "http://localhost:3001/login";
+      const resobj = await HttpHelper.httpRequestA(postUrl, confirmation, 1);
+      console.log(`- resobj: ${JSON.stringify(resobj)}`);
+      // if (resobj.success) {
+      //   authctx.onSignup();
+      //   props.history.push("/welcome");
+      // }
+    } catch (err) {
+      console.log(`- err: ${err}`);
+      HttpHelper.handleGenericErr(err, props);
+    }
+  }
+
   // const content = LingoContentHelper.contentByLang();
 
   // console.log (`- content: ${JSON.stringify (content)}`);
@@ -70,13 +87,13 @@ function OrderCard(props) {
       setOpen(true);
       setConfirmation(confirmation0);
       // console.log(`- selectedValue: ${JSON.stringify(selectedvalue)}`);
-      //   const postUrl = 'https://serko-engineering-exercises.azurewebsites.net/api/SignUp';
-      //   const resobj = await HttpHelper.httpRequestA(postUrl, { email, password, preferredLanguage: language }, 1);
-      //   console.log(`- resobj: ${JSON.stringify(resobj)}`);
-      //   if (resobj.success) {
-      //     authctx.onSignup();
-      //     props.history.push('/welcome');
-      //   }
+      // const postUrl = "localhost:3001/login";
+      // const resobj = await HttpHelper.httpRequestA(postUrl, confirmation0, 1);
+      // console.log(`- resobj: ${JSON.stringify(resobj)}`);
+      // if (resobj.success) {
+      //   authctx.onSignup();
+      //   props.history.push("/welcome");
+      // }
     } catch (err) {
       console.log(`- err: ${err}`);
       HttpHelper.handleGenericErr(err, props);
@@ -144,7 +161,7 @@ function OrderCard(props) {
           </List>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCfm} color="primary">
             确 认
           </Button>
           <Button onClick={handleClose} color="primary" autoFocus>

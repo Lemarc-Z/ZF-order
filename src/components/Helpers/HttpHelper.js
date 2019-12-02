@@ -32,6 +32,7 @@ class HttpHelper {
       method: "POST",
       headers: {
         Accept: "application/json",
+        crossDomain: true,
         "Content-Type": contentType
       },
       // credentials:    'include',
