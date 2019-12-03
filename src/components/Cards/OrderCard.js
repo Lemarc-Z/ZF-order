@@ -6,22 +6,20 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 //
 import UniTextField from "../Universal/UniTextField";
 import UniSelect from "../Universal/UniSelect";
 
-// import LingoSelect 			from '../Special/LingoSelect';
 // helpers;
 import HttpHelper from "../Helpers/HttpHelper";
 import ValidateHelper from "../Helpers/ValidateHelper";
-// import LingoContentHelper from '../Helpers/LingoContentHelper';
 
 function OrderCard(props) {
   const classes = useStyles();
 
   const [customer, setCustomer] = useState("");
+  const [orderNum, setOrderNum] = useState("");
   const [model, setModel] = useState("");
   const [type, setType] = useState("");
   const [color, setColor] = useState("");
@@ -41,11 +39,11 @@ function OrderCard(props) {
   async function handleCfm() {
     setOpen(false);
     try {
-      // console.log(`- selectedValue: ${JSON.stringify(selectedvalue)}`);
-      const postUrl = "http://localhost:3001/login";
+      const postUrl = "http://localhost:3001/ticket";
 
       let amount = price * pieces;
       let postData = {
+        order_num: orderNum,
         customer,
         model,
         type,
@@ -57,19 +55,14 @@ function OrderCard(props) {
 
       const resobj = await HttpHelper.httpRequestA(postUrl, postData, 1);
       console.log(`- resobj: ${JSON.stringify(resobj)}`);
-      // if (resobj.success) {
-      //   authctx.onSignup();
-      //   props.history.push("/welcome");
-      // }
+      if (resobj.success) {
+        console.log(`- resobj: success}`);
+      }
     } catch (err) {
       console.log(`- err: ${err}`);
       HttpHelper.handleGenericErr(err, props);
     }
   }
-
-  // const content = LingoContentHelper.contentByLang();
-
-  // console.log (`- content: ${JSON.stringify (content)}`);
 
   async function onSignUp() {
     console.log(`onSignUp`);
@@ -87,6 +80,7 @@ function OrderCard(props) {
       let amount = price * pieces;
 
       let confirmation0 = [
+        { name: "单号：", val: orderNum },
         { name: "厂家：", val: customer },
         { name: "型号：", val: model },
         { name: "类型：", val: type },
@@ -114,6 +108,11 @@ function OrderCard(props) {
 
   return (
     <Card className={classes.card}>
+      <UniTextField
+        placeholder={"单号"}
+        id="ordernum"
+        onChangeTxt={setOrderNum}
+      />
       <UniTextField
         placeholder={"厂家"}
         id="customer"
