@@ -41,7 +41,12 @@ function OrderCard(props) {
     try {
       const postUrl = "http://localhost:3001/ticket";
 
-      let amount = price * pieces;
+      let amount;
+      if (type === "脚丝") amount = (price * pieces) / 3;
+      else if (type === "鼻中") amount = (price * pieces) / 4;
+      else if (type === "镜架") amount = price * pieces;
+      else throw `类型不对`;
+
       let postData = {
         order_num: orderNum,
         customer,
