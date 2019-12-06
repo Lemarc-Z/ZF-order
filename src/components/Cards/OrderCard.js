@@ -77,7 +77,11 @@ function OrderCard(props) {
       if (ValidateHelper.validateUserArgs(userArgs))
         throw ValidateHelper.validateUserArgs(userArgs);
 
-      let amount = price * pieces;
+      let amount;
+      if (type === "脚丝") amount = (price * pieces) / 3;
+      else if (type === "鼻中") amount = (price * pieces) / 4;
+      else if (type === "镜架") amount = price * pieces;
+      else throw `类型不对`;
 
       let confirmation0 = [
         { name: "单号：", val: orderNum },
