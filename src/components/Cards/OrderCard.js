@@ -29,8 +29,28 @@ function OrderCard(props) {
   const [open, setOpen] = useState(false);
   const [confirmation, setConfirmation] = useState([]);
 
+  const [client, setCient] = useState("");
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+
   const colors = ["浅枪", "亮银", "白钢"];
   const types = ["镜架", "脚丝", "鼻中"];
+  const clientList = ["南平", "鹏延", "其他"];
+  const yrList = ["2019", "2020"];
+  const monthList = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+  ];
 
   function handleClose() {
     setOpen(false);
@@ -45,7 +65,7 @@ function OrderCard(props) {
       if (type === "脚丝") amount = (price * pieces) / 3;
       else if (type === "鼻中") amount = (price * pieces) / 4;
       else if (type === "镜架") amount = price * pieces;
-      else throw `类型不对`;
+      else throw `类型不对`; // does not double - cfm on back end
 
       let postData = {
         order_num: orderNum,
@@ -115,81 +135,135 @@ function OrderCard(props) {
     }
   }
 
+  async function onGetMonthlyReport() {
+    console.log(`onGetMonthlyReport`);
+
+    try {
+      let url = "http://localhost:3001/report";
+
+      let postData = {
+        customer,
+        year,
+        month
+      };
+
+      const resobj = await HttpHelper.httpRequestA(url, postData, 1);
+    } catch (err) {
+      console.log(`- err: ${err}`);
+      HttpHelper.handleGenericErr(err, props);
+    }
+  }
+
   return (
-    <Card className={classes.card}>
-      <UniTextField
-        placeholder={"单号"}
-        id="ordernum"
-        onChangeTxt={setOrderNum}
-      />
-      <UniTextField
-        placeholder={"厂家"}
-        id="customer"
-        onChangeTxt={setCustomer}
-      />
-      <UniTextField placeholder={"型号"} id="model" onChangeTxt={setModel} />
-      <UniSelect
-        placeholder={"类型"}
-        items={types}
-        id="type"
-        required
-        onChangeTxt={setType}
-      />
-      <UniSelect
-        id="color"
-        items={colors}
-        required
-        placeholder={"镀色"}
-        onChangeTxt={setColor}
-      />
-      <UniTextField
-        placeholder={"数量"}
-        id="pcs"
-        type="number"
-        onChangeTxt={setPieces}
-      />
-      <UniTextField
-        placeholder={"单价"}
-        id="price"
-        type="number"
-        onChangeTxt={setPrice}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={onSignUp}
-      >
-        <b>提 交</b>
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
-          <List>
-            {confirmation.map(item => (
-              <ListItemText
-                disableTypography
-                primary={item.name}
-                secondary={item.val}
-                className={classes.inline}
-              />
-            ))}
-          </List>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCfm} color="primary">
-            确 认
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            取 消
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Card>
+    <div>
+      <Card className={classes.card}>
+        <UniTextField
+          placeholder={"单号"}
+          id="ordernum"
+          onChangeTxt={setOrderNum}
+        />
+        <UniTextField
+          placeholder={"厂家"}
+          id="customer"
+          onChangeTxt={setCustomer}
+        />
+        <UniTextField placeholder={"型号"} id="model" onChangeTxt={setModel} />
+        <UniSelect
+          placeholder={"类型"}
+          items={types}
+          id="type"
+          required
+          onChangeTxt={setType}
+        />
+        <UniSelect
+          id="color"
+          items={colors}
+          required
+          placeholder={"镀色"}
+          onChangeTxt={setColor}
+        />
+        <UniTextField
+          placeholder={"数量"}
+          id="pcs"
+          type="number"
+          onChangeTxt={setPieces}
+        />
+        <UniTextField
+          placeholder={"单价"}
+          id="price"
+          type="number"
+          onChangeTxt={setPrice}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={onSignUp}
+        >
+          <b>提 交</b>
+        </Button>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            <List>
+              {confirmation.map(item => (
+                <ListItemText
+                  disableTypography
+                  primary={item.name}
+                  secondary={item.val}
+                  className={classes.inline}
+                />
+              ))}
+            </List>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCfm} color="primary">
+              确 认
+            </Button>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              取 消
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Card>
+      <Card className={classes.card}>
+        <div className={classes.inline}>
+          <UniSelect
+            placeholder={"厂家"}
+            items={clientList}
+            id="client"
+            required
+            onChangeTxt={setCient}
+          />
+          <UniSelect
+            placeholder={"年份"}
+            items={yrList}
+            id="year"
+            required
+            onChangeTxt={setYear}
+          />
+          <UniSelect
+            placeholder={"月份"}
+            items={monthList}
+            id="month"
+            required
+            onChangeTxt={setMonth}
+          />
+        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={onGetMonthlyReport}
+        >
+          <b>生成月报表</b>
+        </Button>
+      </Card>
+    </div>
   );
 }
 
@@ -203,7 +277,7 @@ var useStyles = makeStyles({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
-    margin: "30px 0"
+    marginTop: "30px"
   },
   button: {
     marginTop: "20px",
@@ -212,7 +286,7 @@ var useStyles = makeStyles({
   inline: {
     display: "flex",
     flexDirection: "row",
-    padding: "10px 24px"
+    padding: "0 24px"
   }
 });
 
