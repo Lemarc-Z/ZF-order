@@ -142,7 +142,7 @@ function OrderCard(props) {
       let url = "http://localhost:3001/report";
 
       let postData = {
-        customer,
+        client,
         year,
         month
       };
