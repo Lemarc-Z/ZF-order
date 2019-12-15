@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { CSVLink } from "react-csv";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,8 +28,10 @@ function OrderCard(props) {
   let [price, setPrice] = useState(0);
   let [remark, setRemark] = useState("");
 
-  let [open, setOpen] = useState(false);
-  let [confirmation, setConfirmation] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [confirmation, setConfirmation] = useState([]);
+  const [csvData, setCsvData] = useState();
+  const [genCsv, setGenCsv] = useState(0);
 
   let [client, setCient] = useState("");
   let [year, setYear] = useState("");
@@ -55,6 +58,10 @@ function OrderCard(props) {
 
   function handleClose() {
     setOpen(false);
+  }
+
+  function onDownloadReport() {
+    setGenCsv(0);
   }
 
   async function handleCfm() {
@@ -151,6 +158,12 @@ function OrderCard(props) {
       };
 
       let resobj = await HttpHelper.httpRequestA(url, postData, 1);
+
+      console.log(`- resobj.csv_data: ${JSON.stringify(resobj.csv_data)}`);
+      setCsvData(resobj.csv_data);
+      setTimeout(() => {
+        setGenCsv(1);
+      }, 3000);
     } catch (err) {
       console.log(`- err: ${err}`);
       HttpHelper.handleGenericErr(err, props);
@@ -262,6 +275,22 @@ function OrderCard(props) {
             onChangeTxt={setMonth}
           />
         </div>
+        {genCsv ? (
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={onDownloadReport}
+          >
+            <CSVLink
+              data={csvData}
+              target="_blank"
+              filename={`振峰-${client}${year}年${month}月账单.xlsx`}
+            >
+              下载报表
+            </CSVLink>
+          </Button>
+        ) : null}
         <Button
           variant="contained"
           color="primary"
@@ -274,10 +303,9 @@ function OrderCard(props) {
     </div>
   );
 }
-
 var useStyles = makeStyles({
   card: {
-    padding: "35px 0",
+    padding: "20px 0",
     minWidth: 375,
     width: "50%",
     marginLeft: "auto",
@@ -285,7 +313,7 @@ var useStyles = makeStyles({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "30px"
+    marginTop: "10px"
   },
   button: {
     marginTop: "20px",
