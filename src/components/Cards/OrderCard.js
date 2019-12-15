@@ -28,10 +28,10 @@ function OrderCard(props) {
   let [price, setPrice] = useState(0);
   let [remark, setRemark] = useState("");
 
-  const [open, setOpen] = useState(false);
-  const [confirmation, setConfirmation] = useState([]);
-  const [csvData, setCsvData] = useState();
-  const [genCsv, setGenCsv] = useState(0);
+  let [open, setOpen] = useState(false);
+  let [confirmation, setConfirmation] = useState([]);
+  let [csvData, setCsvData] = useState();
+  let [genCsv, setGenCsv] = useState(0);
 
   let [client, setCient] = useState("");
   let [year, setYear] = useState("");
@@ -103,7 +103,7 @@ function OrderCard(props) {
 
     try {
       // validate b4 submit
-      const userArgs = [
+      let userArgs = [
         { val: customer, errmsg: "厂家必须填写", chktype: "required" },
         { val: pieces, errmsg: "数量必须填写", chktype: "required" },
         { val: price, errmsg: "单价必须填写", chktype: "required" }
