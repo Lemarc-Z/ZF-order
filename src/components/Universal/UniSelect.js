@@ -10,11 +10,11 @@ import { makeStyles } from "@material-ui/core/styles";
 // import ValidateHelper from '../Helpers/ValidateHelper';
 
 function UniSelect(props) {
-  const classes = useStyles();
+  let classes = useStyles();
 
-  const { placeholder, onChangeTxt, id, items } = props;
+  let { placeholder, onChangeTxt, id, items } = props;
 
-  const [value, setValue] = useState("");
+  let [value, setValue] = useState("");
   // const [helperText, setHelperText] = useState("");
 
   function onChangeVal(event) {

@@ -5,11 +5,11 @@ import { makeStyles } from "@material-ui/core/styles";
 // import ValidateHelper from '../Helpers/ValidateHelper';
 
 function UniTextField(props) {
-  const classes = useStyles();
+  let classes = useStyles();
 
-  const { placeholder, id, type, onChangeTxt, ...rest } = props;
+  let { placeholder, id, type, onChangeTxt, ...rest } = props;
 
-  const [value, setValue] = useState("");
+  let [value, setValue] = useState("");
   //   const [error, setError] = useState(false);
   //   const [helperText, setHelperText] 		= useState('');
 

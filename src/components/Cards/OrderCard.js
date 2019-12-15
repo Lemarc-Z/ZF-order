@@ -16,28 +16,29 @@ import HttpHelper from "../Helpers/HttpHelper";
 import ValidateHelper from "../Helpers/ValidateHelper";
 
 function OrderCard(props) {
-  const classes = useStyles();
+  let classes = useStyles();
 
-  const [customer, setCustomer] = useState("");
-  const [orderNum, setOrderNum] = useState("");
-  const [model, setModel] = useState("");
-  const [type, setType] = useState("");
-  const [color, setColor] = useState("");
-  const [pieces, setPieces] = useState(0);
-  const [price, setPrice] = useState(0);
+  let [customer, setCustomer] = useState("");
+  let [orderNum, setOrderNum] = useState("");
+  let [model, setModel] = useState("");
+  let [type, setType] = useState("");
+  let [color, setColor] = useState("");
+  let [pieces, setPieces] = useState(0);
+  let [price, setPrice] = useState(0);
+  let [remark, setRemark] = useState("");
 
-  const [open, setOpen] = useState(false);
-  const [confirmation, setConfirmation] = useState([]);
+  let [open, setOpen] = useState(false);
+  let [confirmation, setConfirmation] = useState([]);
 
-  const [client, setCient] = useState("");
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
+  let [client, setCient] = useState("");
+  let [year, setYear] = useState("");
+  let [month, setMonth] = useState("");
 
-  const colors = ["浅枪", "亮银", "白钢"];
-  const types = ["镜架", "脚丝", "鼻中"];
-  const clientList = ["南平", "鹏延", "其他"];
-  const yrList = ["2019", "2020"];
-  const monthList = [
+  let colors = ["浅枪", "亮银", "白钢"];
+  let types = ["镜架", "脚丝", "鼻中"];
+  let clientList = ["南平", "鹏延", "其他"];
+  let yrList = ["2019", "2020"];
+  let monthList = [
     "01",
     "02",
     "03",
@@ -59,7 +60,7 @@ function OrderCard(props) {
   async function handleCfm() {
     setOpen(false);
     try {
-      const postUrl = "http://localhost:3001/ticket";
+      let postUrl = "http://localhost:3000/ticket";
 
       let amount;
       if (type === "脚丝") amount = (price * pieces) / 3;
@@ -75,10 +76,11 @@ function OrderCard(props) {
         color,
         pieces,
         price,
-        amount
+        amount,
+        remark
       };
 
-      const resobj = await HttpHelper.httpRequestA(postUrl, postData, 1);
+      let resobj = await HttpHelper.httpRequestA(postUrl, postData, 1);
       console.log(`- resobj: ${JSON.stringify(resobj)}`);
       if (resobj.success) {
         console.log(`- resobj: success}`);
@@ -118,6 +120,7 @@ function OrderCard(props) {
         { name: "单价：", val: price },
         { name: "价格：", val: amount }
       ];
+      if (remark) Object.assign (remark, confirmation0);
       console.log(`- confirmation: ${JSON.stringify(confirmation)}`);
       setOpen(true);
       setConfirmation(confirmation0);
@@ -147,7 +150,7 @@ function OrderCard(props) {
         month
       };
 
-      const resobj = await HttpHelper.httpRequestA(url, postData, 1);
+      let resobj = await HttpHelper.httpRequestA(url, postData, 1);
     } catch (err) {
       console.log(`- err: ${err}`);
       HttpHelper.handleGenericErr(err, props);
@@ -193,6 +196,11 @@ function OrderCard(props) {
           id="price"
           type="number"
           onChangeTxt={setPrice}
+        />
+        <UniTextField
+          placeholder={"备注"}
+          id="remark"
+          onChangeTxt={setRemark}
         />
         <Button
           variant="contained"
