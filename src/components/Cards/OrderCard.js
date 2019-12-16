@@ -127,7 +127,7 @@ function OrderCard(props) {
         { name: "单价：", val: price },
         { name: "价格：", val: amount }
       ];
-      if (remark) Object.assign (remark, confirmation0);
+      if (remark) Object.assign(remark, confirmation0);
       console.log(`- confirmation: ${JSON.stringify(confirmation)}`);
       setOpen(true);
       setConfirmation(confirmation0);
@@ -149,6 +149,14 @@ function OrderCard(props) {
     console.log(`onGetMonthlyReport`);
 
     try {
+      // validate b4 submit
+      let userArgs = [
+        { val: client, errmsg: "请先选择厂家", chktype: "required" },
+        { val: year, errmsg: "请先选择年份", chktype: "required" },
+        { val: month, errmsg: "请先选择月份", chktype: "required" }
+      ];
+      if (ValidateHelper.validateUserArgs(userArgs))
+        throw ValidateHelper.validateUserArgs(userArgs);
       let url = "http://localhost:3001/report";
 
       let postData = {
