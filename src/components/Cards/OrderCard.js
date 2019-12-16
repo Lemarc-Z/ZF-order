@@ -37,9 +37,9 @@ function OrderCard(props) {
   let [year, setYear] = useState("");
   let [month, setMonth] = useState("");
 
-  let colors = ["浅枪", "亮银", "白钢"];
-  let types = ["镜架", "脚丝", "鼻中"];
-  let clientList = ["南平", "鹏延", "其他"];
+  let colors = ["浅枪", "亮银", "白钢", "IP金", "深枪", "彩色"];
+  let types = ["镜架", "脚丝", "鼻中", "其他"];
+  let clientList = ["南平", "鹏延", "高尚", "其他"];
   let yrList = ["2019", "2020"];
   let monthList = [
     "01",
@@ -67,13 +67,13 @@ function OrderCard(props) {
   async function handleCfm() {
     setOpen(false);
     try {
-      let postUrl = "http://localhost:3000/ticket";
+      let postUrl = "http://localhost:3001/ticket";
 
       let amount;
       if (type === "脚丝") amount = (price * pieces) / 3;
       else if (type === "鼻中") amount = (price * pieces) / 4;
-      else if (type === "镜架") amount = price * pieces;
-      else throw `类型不对`; // does not double - cfm on back end
+      else amount = price * pieces;
+      // else throw `类型不对`; // does not double - cfm on back end
 
       let postData = {
         order_num: orderNum,
@@ -114,8 +114,7 @@ function OrderCard(props) {
       let amount;
       if (type === "脚丝") amount = (price * pieces) / 3;
       else if (type === "鼻中") amount = (price * pieces) / 4;
-      else if (type === "镜架") amount = price * pieces;
-      else throw `类型不对`;
+      else amount = price * pieces;
 
       let confirmation0 = [
         { name: "单号：", val: orderNum },
@@ -127,7 +126,7 @@ function OrderCard(props) {
         { name: "单价：", val: price },
         { name: "价格：", val: amount }
       ];
-      if (remark) Object.assign(remark, confirmation0);
+      if (remark) confirmation0.push(remark);
       console.log(`- confirmation: ${JSON.stringify(confirmation)}`);
       setOpen(true);
       setConfirmation(confirmation0);
