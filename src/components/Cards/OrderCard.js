@@ -29,6 +29,7 @@ function OrderCard(props) {
   let [remark, setRemark] = useState("");
 
   let [open, setOpen] = useState(false);
+  let [succeed, setSucceed] = useState(false);
   let [confirmation, setConfirmation] = useState([]);
   let [csvData, setCsvData] = useState();
   let [genCsv, setGenCsv] = useState(0);
@@ -37,7 +38,16 @@ function OrderCard(props) {
   let [year, setYear] = useState("");
   let [month, setMonth] = useState("");
 
-  let colors = ["浅枪", "亮银", "白钢", "IP金", "深枪", "彩色"];
+  let colors = [
+    "浅枪",
+    "亮银",
+    "白钢",
+    "IP金",
+    "深枪",
+    "彩色",
+    "不锈钢",
+    "其他"
+  ];
   let types = ["镜架", "脚丝", "鼻中", "其他"];
   let clientList = ["南平", "鹏延", "高尚", "其他"];
   let yrList = ["2019", "2020"];
@@ -58,6 +68,10 @@ function OrderCard(props) {
 
   function handleClose() {
     setOpen(false);
+  }
+
+  function handleSucceed() {
+    setSucceed(false);
   }
 
   function onDownloadReport() {
@@ -90,7 +104,8 @@ function OrderCard(props) {
       let resobj = await HttpHelper.httpRequestA(postUrl, postData, 1);
       console.log(`- resobj: ${JSON.stringify(resobj)}`);
       if (resobj.success) {
-        console.log(`- resobj: success}`);
+        // console.log(`- resobj: success`);
+        setSucceed(true);
       }
     } catch (err) {
       console.log(`- err: ${err}`);
@@ -254,6 +269,14 @@ function OrderCard(props) {
             </Button>
             <Button onClick={handleClose} color="primary" autoFocus>
               取 消
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={succeed}>
+          <DialogContent>录入成功</DialogContent>{" "}
+          <DialogActions>
+            <Button onClick={handleSucceed} color="primary">
+              确 认
             </Button>
           </DialogActions>
         </Dialog>
