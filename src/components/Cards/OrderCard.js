@@ -38,6 +38,8 @@ function OrderCard(props) {
   let [year, setYear] = useState("");
   let [month, setMonth] = useState("");
 
+  let [warningTxt, setWarningTxt] = useState("");
+
   let colors = [
     "浅枪",
     "亮银",
@@ -71,6 +73,7 @@ function OrderCard(props) {
   }
 
   function handleSucceed() {
+    setWarningTxt("");
     setSucceed(false);
   }
 
@@ -104,7 +107,8 @@ function OrderCard(props) {
       let resobj = await HttpHelper.httpRequestA(postUrl, postData, 1);
       console.log(`- resobj: ${JSON.stringify(resobj)}`);
       if (resobj.success) {
-        // console.log(`- resobj: success`);
+        console.log(`- resobj: success`);
+        setWarningTxt(`录入成功`);
         setSucceed(true);
       }
     } catch (err) {
@@ -181,11 +185,16 @@ function OrderCard(props) {
 
       let resobj = await HttpHelper.httpRequestA(url, postData, 1);
 
-      console.log(`- resobj.csv_data: ${JSON.stringify(resobj.csv_data)}`);
-      setCsvData(resobj.csv_data);
-      setTimeout(() => {
-        setGenCsv(1);
-      }, 3000);
+      // console.log(`- resobj.csv_data: ${JSON.stringify(resobj.csv_data)}`);
+      if (resobj.csv_data.length > 1) {
+        setCsvData(resobj.csv_data);
+        setTimeout(() => {
+          setGenCsv(1);
+        }, 3000);
+      } else {
+        setWarningTxt(`当月无数据`);
+        setSucceed(true);
+      }
     } catch (err) {
       console.log(`- err: ${err}`);
       HttpHelper.handleGenericErr(err, props);
@@ -273,7 +282,7 @@ function OrderCard(props) {
           </DialogActions>
         </Dialog>
         <Dialog open={succeed}>
-          <DialogContent>录入成功</DialogContent>{" "}
+          <DialogContent>{warningTxt}</DialogContent>{" "}
           <DialogActions>
             <Button onClick={handleSucceed} color="primary">
               确 认
