@@ -5,6 +5,11 @@
   "dependencies": {
     "@material-ui/core": "^4.7.0",
     "eslint": "^6.7.1",
+    "koa": "^2.11.0",
+    "koa-compress": "^3.0.0",
+    "koa-helmet": "^5.2.0",
+    "koa-logger": "^3.2.1",
+    "koa-send": "^5.0.0",
     "react": "^16.12.0",
     "react-csv": "^1.1.2",
     "react-dom": "^16.12.0",
