@@ -209,11 +209,20 @@ function OrderCard(props) {
           id="ordernum"
           onChangeTxt={setOrderNum}
         />
-        <UniTextField
-          placeholder={"厂家"}
-          id="customer"
-          onChangeTxt={setCustomer}
-        />
+        <div className={classes.inline}>
+          <UniSelect
+            placeholder={"厂家选择"}
+            items={clientList.slice(0, -1)}
+            id="client"
+            required
+            onChangeTxt={setCustomer}
+          />
+          <UniTextField
+            placeholder={"厂家填写"}
+            id="customer"
+            onChangeTxt={setCustomer}
+          />
+        </div>
         <UniTextField placeholder={"型号"} id="model" onChangeTxt={setModel} />
         <UniSelect
           placeholder={"类型"}
