@@ -12,7 +12,7 @@ app.use(logger());
 
 app.use(async ctx => {
   let sendOpts = {
-    root: "ZF-order/build",
+    root: __dirname + "/ZF-order/build",
     maxage: 7 * 24 * 3600 * 1000
   };
   await send(ctx, "/index.html", sendOpts);
