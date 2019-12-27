@@ -1,22 +1,20 @@
-var Koa = require("koa");
-var compress = require("koa-compress");
-var helmet = require("koa-helmet");
-var logger = require("koa-logger");
-var send = require("koa-send");
-var app = new Koa();
+var express = require("express");
+var morgan = require("morgan");
+var compression = require("compression");
+var helmet = require("helmet");
 
+var app = express();
 app.use(helmet());
-app.use(compress());
+app.use(compression());
 
-app.use(logger());
+app.use(morgan("combined"));
 
-app.use(async ctx => {
-  let sendOpts = {
-    root: __dirname + "/build",
-    maxage: 7 * 24 * 3600 * 1000
-  };
-  await send(ctx, "index.html", sendOpts);
+// Serve the static files from the build folder
+app.use(express.static(__dirname + "/build"));
+//app.use('/material-dashboard-react', express.static(__dirname + "/build"));
+// Redirect all traffic to the index
+app.get("*", function(req, res) {
+  res.sendFile(__dirname + "/build/index.html");
 });
-
 // Listen to port 3000
 app.listen(process.env.PORT || 3000);
