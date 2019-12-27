@@ -11,11 +11,11 @@ app.use(compress());
 app.use(logger());
 
 app.use(async ctx => {
-  // let sendOpts = {
-  //   root: __dirname + "/build",
-  //   maxage: 7 * 24 * 3600 * 1000
-  // };
-  await send(ctx, ctx.path, { root: __dirname + "/build" });
+  let sendOpts = {
+    root: "build",
+    maxage: 7 * 24 * 3600 * 1000
+  };
+  await send(ctx, "index.html", sendOpts);
 });
 
 // Listen to port 3000
