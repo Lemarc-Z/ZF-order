@@ -12,7 +12,7 @@ app.use(logger());
 
 app.use(async ctx => {
   let sendOpts = {
-    root: "build",
+    root: __dirname + "build",
     maxage: 7 * 24 * 3600 * 1000
   };
   await send(ctx, "index.html", sendOpts);
