@@ -84,7 +84,7 @@ function OrderCard(props) {
   async function handleCfm() {
     setOpen(false);
     try {
-      let postUrl = "api/ticket";
+      let postUrl = "/api/ticket";
 
       let amount;
       if (type === "脚丝") amount = (price * pieces) / 3;
@@ -175,7 +175,7 @@ function OrderCard(props) {
       ];
       if (ValidateHelper.validateUserArgs(userArgs))
         throw ValidateHelper.validateUserArgs(userArgs);
-      let url = "api/report";
+      let url = "/api/report";
 
       let postData = {
         client,
