@@ -333,7 +333,7 @@ function OrderCard(props) {
             <CSVLink
               data={csvData}
               target="_blank"
-              filename={`振峰-${client}${year}年${month}月账单.xlsx`}
+              filename={`振峰-${client}${year}年${month}月账单.xls`}
             >
               下载报表
             </CSVLink>
