@@ -24,8 +24,8 @@ function OrderCard(props) {
   let [model, setModel] = useState("");
   let [type, setType] = useState("");
   let [color, setColor] = useState("");
-  let [pieces, setPieces] = useState(0);
-  let [price, setPrice] = useState(0);
+  let [pieces, setPieces] = useState("");
+  let [price, setPrice] = useState("");
   let [remark, setRemark] = useState("");
 
   let [open, setOpen] = useState(false);
@@ -199,6 +199,9 @@ function OrderCard(props) {
         setCsvData(resobj.csv_data);
         setTimeout(() => {
           setGenCsv(1);
+          setCient("");
+          setYear("");
+          setMonth("");
         }, 3000);
       } else {
         setWarningTxt(`当月无数据`);
@@ -217,6 +220,7 @@ function OrderCard(props) {
           placeholder={"单号"}
           id="ordernum"
           onChangeTxt={setOrderNum}
+          value={orderNum}
         />
         <div className={classes.inline}>
           <UniSelect
@@ -225,20 +229,28 @@ function OrderCard(props) {
             id="client"
             required
             onChangeTxt={setCustomer}
+            value={customer}
           />
           <UniTextField
             placeholder={"厂家填写"}
             id="customer"
             onChangeTxt={setCustomer}
+            value={customer}
           />
         </div>
-        <UniTextField placeholder={"型号"} id="model" onChangeTxt={setModel} />
+        <UniTextField
+          placeholder={"型号"}
+          id="model"
+          onChangeTxt={setModel}
+          value={model}
+        />
         <UniSelect
           placeholder={"类型"}
           items={types}
           id="type"
           required
           onChangeTxt={setType}
+          value={type}
         />
         <UniSelect
           id="color"
@@ -246,23 +258,27 @@ function OrderCard(props) {
           required
           placeholder={"镀色"}
           onChangeTxt={setColor}
+          value={color}
         />
         <UniTextField
           placeholder={"数量"}
           id="pcs"
           type="number"
           onChangeTxt={setPieces}
+          value={pieces}
         />
         <UniTextField
           placeholder={"单价"}
           id="price"
           type="number"
           onChangeTxt={setPrice}
+          value={price}
         />
         <UniTextField
           placeholder={"备注"}
           id="remark"
           onChangeTxt={setRemark}
+          value={remark}
         />
         <Button
           variant="contained"
@@ -316,6 +332,7 @@ function OrderCard(props) {
             id="client"
             required
             onChangeTxt={setCient}
+            value={client}
           />
           <UniSelect
             placeholder={"年份"}
@@ -323,6 +340,7 @@ function OrderCard(props) {
             id="year"
             required
             onChangeTxt={setYear}
+            value={year}
           />
           <UniSelect
             placeholder={"月份"}
@@ -330,6 +348,7 @@ function OrderCard(props) {
             id="month"
             required
             onChangeTxt={setMonth}
+            value={month}
           />
         </div>
         {genCsv ? (
