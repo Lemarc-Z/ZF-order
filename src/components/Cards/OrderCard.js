@@ -79,6 +79,9 @@ function OrderCard(props) {
 
   function onDownloadReport() {
     setGenCsv(0);
+    setCient("");
+    setYear("");
+    setMonth("");
   }
 
   async function handleCfm() {
@@ -199,9 +202,6 @@ function OrderCard(props) {
         setCsvData(resobj.csv_data);
         setTimeout(() => {
           setGenCsv(1);
-          setCient("");
-          setYear("");
-          setMonth("");
         }, 3000);
       } else {
         setWarningTxt(`当月无数据`);
@@ -361,7 +361,7 @@ function OrderCard(props) {
             <CSVLink
               data={csvData}
               target="_blank"
-              filename={`振峰-${client}${year}年${month}月账单.xlsx`}
+              filename={`振峰-${client}${year}年${month}月账单.xls`}
             >
               下载报表
             </CSVLink>
