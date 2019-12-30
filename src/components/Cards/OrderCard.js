@@ -110,6 +110,15 @@ function OrderCard(props) {
         console.log(`- resobj: success`);
         setWarningTxt(`录入成功`);
         setSucceed(true);
+        setOrderNum("");
+        setCustomer("");
+        setModel("");
+        setType("");
+        setColor("");
+        setPieces("");
+        setPrice("");
+        setRemark("");
+        setConfirmation([]);
       }
     } catch (err) {
       console.log(`- err: ${err}`);
@@ -333,7 +342,7 @@ function OrderCard(props) {
             <CSVLink
               data={csvData}
               target="_blank"
-              filename={`振峰-${client}${year}年${month}月账单.xls`}
+              filename={`振峰-${client}${year}年${month}月账单.xlsx`}
             >
               下载报表
             </CSVLink>
